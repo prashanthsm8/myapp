@@ -2,6 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import {CardList} from './Components/Card-list/CardList';
+import {Searchbox} from './Components/search-box/Searchbox.jsx';
 
 // function App() {
 //   return (
@@ -58,6 +59,7 @@ class App extends React.Component
         monsters : [],
         searchval : ""
       }
+      //this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount()
     {
@@ -65,22 +67,22 @@ class App extends React.Component
       .then(Response => Response.json())
       .then(users => this.setState({monsters:users}));
     }
+
+    handleChange=(e)=>
+    {
+      this.setState({searchval:e.target.value});
+    }
     render()
     {
       const tempmons = this.state.monsters.filter(
         (monster)=> monster.name.toLowerCase().includes(this.state.searchval.toLowerCase())
       );
-      this.state.monster=tempmons;
        return (
         <div className="App">
-          <input placeholder="enter monster" type="search" 
-            onChange={
-              (e)=>
-              {
-                this.setState({searchval:e.target.value});
-              }
-            }
-          ></input>
+          <h1>Monsters Rolodex</h1>
+          <Searchbox placeholder="enter monster" handleevent={
+              this.handleChange
+            }></Searchbox>
           <CardList monsters={tempmons}></CardList>
       </div>
        );
